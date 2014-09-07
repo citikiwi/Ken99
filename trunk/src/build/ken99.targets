@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- ***** VARIABLES ***** -->
+  <PropertyGroup Condition="$(BuildingInsideVisualStudio) != true">
+    <!--<SrcFolder>$(MSBuildStartupDirectory)/</SrcFolder>-->
+    <SrcFolder>$(SolutionDir)</SrcFolder>
+    <ConfigEnvironment>$(Computername).</ConfigEnvironment>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(BuildingInsideVisualStudio) == true">
+    <SrcFolder>$(SolutionDir)</SrcFolder>
+    <ConfigEnvironment>$(Computername).</ConfigEnvironment>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CmsFolder>$(SrcFolder)../../dep/UmbracoCms.7.1.6/</CmsFolder>
+    <ImageResizerFolder>$(SrcFolder)../../dep/imageResizer/bin/</ImageResizerFolder>
+    <BuildOutput>$(SrcFolder)../output/</BuildOutput>
+    <DeployFolder>$(SrcFolder)../http/</DeployFolder>
+    <WebConfig>$(ProjectDir)web.config</WebConfig>
+    <ConfigTransform>$(ProjectDir)web.$(ConfigEnvironment)$(Configuration).config</ConfigTransform>
+    <TargetAssembly>$(OutDir)Ken99.Web.dll</TargetAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="!Exists('$(ConfigTransform)')">
+    <ConfigTransform>$(ProjectDir)web.$(Configuration).config</ConfigTransform>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <LibFiles Include="$(SrcFolder)lib/**" />
+    <AssemblyFiles Include="$(ProjectDir)**/./bin/**" />
+
+    <WebFiles Include="$(ProjectDir)**/./css/**" />
+    <WebFiles Include="$(ProjectDir)**/./js/**" />
+    <WebFiles Include="$(ProjectDir)**/./Config/**" />
+    <WebFiles Include="$(ProjectDir)**/./macroscripts/**/*.cshtml" />
+    <WebFiles Include="$(ProjectDir)**/./masterpages/**/*.master" />
+    <WebFiles Include="$(ProjectDir)**/./scripts/**" />
+    <WebFiles Include="$(ProjectDir)**/./themes/**" />
+    <WebFiles Include="$(ProjectDir)**/./umbraco/**" />
+    <WebFiles Include="$(ProjectDir)**/./umbraco_client/**" />
+    <WebFiles Include="$(ProjectDir)**/./usercontrols/**/*.ascx" />
+    <webFiles Include="$(ProjectDir)**/./Views/**/*.ascx"/>
+    <WebFiles Include="$(ProjectDir)**/./xslt/**/*.xslt" />
+
+    <ConfigFiles Include="$(ProjectDir)**/*.config"
+                 Exclude="$(ProjectDir)web.config;$(ProjectDir)web.*.config;$(ProjectDir)packages.config" />
+
+  </ItemGroup>
+
+  <!-- ***** Extension Pack ***** -->
+  <PropertyGroup>
+    <ExtensionPackPath>$(SrcFolder)\build\MSBuild.ExtensionPack.tasks</ExtensionPackPath>
+  </PropertyGroup>
+
+  <!-- ***** BUILD OUTPUT DIR ***** -->
+  <Target Name="SetBuildOutputProperty" Condition=" Exists('$(TargetAssembly)') ">
+
+    <GetAssemblyIdentity AssemblyFiles="$(TargetAssembly)">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyFile"/>
+    </GetAssemblyIdentity>
+
+    <PropertyGroup>
+      <BuildOutput>$(BuildOutput)$(Configuration)/</BuildOutput>
+    </PropertyGroup>
+
+  </Target>
+
+  <!-- ***** TARGETS ***** -->
+  <Target Name="CopyToOutput" AfterTargets="Build;Rebuild" DependsOnTargets="SetBuildOutputProperty">
+
+    <Message Text="src folder: $(SrcFolder)" Importance="high"/>
+    <Message Text="build output : $(BuildOutput)" Importance="high"/>
+    <Message Text="copying files to : $(BuildOutput)" Importance="high"/>
+
+    <CallTarget Targets="SetBuildOutputProperty"
+                Condition=" Exists('$(TargetAssembly)')" />
+
+    <Copy
+        SourceFiles="@(AssemblyFiles);@(WebFiles)"
+        DestinationFolder="$(BuildOutput)%(RecursiveDir)"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+
+    <Copy
+        SourceFiles="@(LibFiles)"
+        DestinationFolder="$(BuildOutput)bin\"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+
+    <Message Text="copying config files to : $(BuildOutput)" Importance="high"/>
+    <Copy
+        SourceFiles="@(ConfigFiles)"
+        DestinationFolder="$(BuildOutput)%(RecursiveDir)"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+
+    <CallTarget Targets="DeployCmsFiles"
+                Condition=" !Exists('$(DeployFolder)web.config') " />
+    <CallTarget Targets="DeployFiles" />
+
+  </Target>
+
+  <Import Project="$(ExtensionPackPath)" />
+  <Target Name="TransformWebConfig" AfterTargets="CopyToOutput">
+
+    <PropertyGroup>
+      <TransformedConfig>$(WebConfig.Replace("$(ProjectDir)", "$(BuildOutput)"))</TransformedConfig>
+      <PreviousConfig>$(WebConfig.Replace("$(ProjectDir)", "$(DeployFolder)"))</PreviousConfig>
+    </PropertyGroup>
+
+    <Message Text="web config: $(WebConfig)" Importance="high"/>
+    <Message Text="config transform file: $(ConfigTransform)" Importance="high"/>
+    <Message Text="transformation output : $(TransformedConfig)" Importance="high"/>
+
+    <TransformXml
+              Source="$(WebConfig)"
+              Transform="$(ConfigTransform)"
+              Destination="$(TransformedConfig)" />
+
+    <Copy
+        SourceFiles="$(TransformedConfig)"
+        DestinationFiles="$(PreviousConfig)"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        Condition=" !Exists('$(PreviousConfig)') "
+        />
+
+    <Copy
+        SourceFiles="$(PreviousConfig)"
+        DestinationFiles="$(PreviousConfig).template"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        Condition=" !Exists('$(PreviousConfig).template') "
+        />
+
+    <MSBuild.ExtensionPack.FileSystem.File
+          TaskAction="GetChecksum"
+          Path="$(PreviousConfig).template">
+      <Output TaskParameter="Checksum" PropertyName="OldChksum"/>
+    </MSBuild.ExtensionPack.FileSystem.File>
+
+    <MSBuild.ExtensionPack.FileSystem.File
+          TaskAction="GetChecksum"
+          Path="$(TransformedConfig)">
+      <Output TaskParameter="Checksum" PropertyName="NewChksum"/>
+    </MSBuild.ExtensionPack.FileSystem.File>
+
+    <Message Text="old config checksum: $(OldChksum)" Importance="high"/>
+    <Message Text="new config checksum: $(NewChksum)" Importance="high"/>
+    <Copy
+        SourceFiles="$(TransformedConfig);$(TransformedConfig)"
+        DestinationFiles="$(PreviousConfig);$(PreviousConfig).template"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        Condition=" $(NewChksum) != $(OldChksum)  "
+        />
+
+  </Target>
+
+  <Target Name="DeployFiles">
+
+    <ItemGroup>
+      <BuildFiles Include="$(BuildOutput)**"
+                Exclude="$(BuildOutput)web.config" />
+    </ItemGroup>
+
+    <Message Text="deploying build files to : $(DeployFolder)" Importance="high"/>
+    <Copy
+        SourceFiles="@(BuildFiles)"
+        DestinationFolder="$(DeployFolder)%(RecursiveDir)"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+
+  </Target>
+
+  <Target Name="DeployCmsFiles">
+
+    <ItemGroup>
+      <CmsFiles Include="$(CmsFolder)**"
+                Exclude="$(CmsFolder)web.config" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ImageResizerFiles Include="$(ImageResizerFolder)**"/>
+    </ItemGroup>
+
+    <Message Text="deploying cms files to : $(DeployFolder)" Importance="high" />
+
+    <Copy
+        SourceFiles="@(CmsFiles)"
+        DestinationFolder="$(DeployFolder)%(RecursiveDir)"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+    
+    <Copy
+        SourceFiles="@(ImageResizerFiles)"
+        DestinationFolder="$(DeployFolder)%(RecursiveDir)\bin"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+    
+    <Copy
+        SourceFiles="$(CmsFolder)web.config"
+        DestinationFolder="$(DeployFolder)"
+        OverwriteReadOnlyFiles="true"
+        SkipUnchangedFiles="true"
+        />
+
+  </Target>
+
+</Project>
