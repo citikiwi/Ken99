@@ -25,8 +25,12 @@ _NCrunch_*/
 *.vs10x
 App_Data/TEMP/*
 
-/trunk/http
-/trunk/output
+trunk/src/Web/bin
+trunk/src/Web/obj
+trunk/src/Model/bin
+trunk/src/Model/obj
+trunk/http
+trunk/output
 
 
 
