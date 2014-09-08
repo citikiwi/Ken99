@@ -15,8 +15,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <CmsFolder>$(SrcFolder)../../dep/UmbracoCms.7.1.6/</CmsFolder>
-    <ImageResizerFolder>$(SrcFolder)../../dep/imageResizer/bin/</ImageResizerFolder>
+    <CmsFolder>$(SrcFolder)../dep/UmbracoCms.7.1.6/</CmsFolder>
+    <ImageResizerFolder>$(SrcFolder)../dep/imageResizer/bin/</ImageResizerFolder>
     <BuildOutput>$(SrcFolder)../output/</BuildOutput>
     <DeployFolder>$(SrcFolder)../http/</DeployFolder>
     <WebConfig>$(ProjectDir)web.config</WebConfig>

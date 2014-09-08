@@ -23,3 +23,9 @@ C:\Work\Projects\Ken99\trunk\src\Web\bin\System.Web.WebPages.Deployment.xml
 C:\Work\Projects\Ken99\trunk\src\Web\bin\System.Web.WebPages.Razor.xml
 C:\Work\Projects\Ken99\trunk\src\Web\obj\Debug\Ken99.Web.dll
 C:\Work\Projects\Ken99\trunk\src\Web\obj\Debug\Ken99.Web.pdb
+C:\Work\Projects\Ken99\trunk\src\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
+C:\Work\Projects\Ken99\trunk\src\Web\bin\Ken99.Model.dll
+C:\Work\Projects\Ken99\trunk\src\Web\bin\Vega.USiteBuilder.dll
+C:\Work\Projects\Ken99\trunk\src\Web\bin\Castle.Core.dll
+C:\Work\Projects\Ken99\trunk\src\Web\bin\Ken99.Model.pdb
+C:\Work\Projects\Ken99\trunk\src\Web\bin\Castle.Core.xml
