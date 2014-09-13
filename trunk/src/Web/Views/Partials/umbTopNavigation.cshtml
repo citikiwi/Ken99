@@ -1,4 +1,5 @@
-﻿@inherits UmbracoTemplatePage
+﻿@using Ken99.AppServices;
+@inherits UmbracoTemplatePage
 @{
     // Model.Content is the current page that we're on
     // AncestorsOrSelf is all of the ancestors this page has in the tree
@@ -15,7 +16,7 @@
     <ul>
         @* If the Url of the current page is "/" then we want to add the class "current_page_item" *@
         @* Otherwise, we set the class to null, that way it will not even be added to the <li> element *@
-        <li class="@(CurrentPage.Url == "/" ? "current_page_item" : null)"><a href="/">Home</a></li>
+        <li class="@(CurrentPage.Url == "/" ? "current_page_item" : null)"><a href="/">@Umbraco.GetDictionaryValue(AppConsts.UmbDic.TopNavigation_HomeTitle)</a></li>
 
         @foreach (var item in menuItems)
         {

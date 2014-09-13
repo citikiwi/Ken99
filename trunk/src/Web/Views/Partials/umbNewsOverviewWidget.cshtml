@@ -1,4 +1,5 @@
-﻿@inherits UmbracoTemplatePage
+﻿@using Ken99.AppServices;
+@inherits UmbracoTemplatePage
 @{
     // Model.Content is the current page that we're on
     // AncestorsOrSelf is all of the ancestors this page has in the tree
@@ -62,7 +63,7 @@
 
                         @Umbraco.Truncate(featuredNewsItem.BodyText, 200, true, false)
 
-                        <a href="@featuredNewsItem.Url" class="button">Continue Reading</a>
+                        <a href="@featuredNewsItem.Url" class="button">@Umbraco.GetDictionaryValue(AppConsts.UmbDic.RecentPostOverviewWidget_ContinueReading)</a>
                     </article>
                     <!-- /Featured Post -->
                 </div>

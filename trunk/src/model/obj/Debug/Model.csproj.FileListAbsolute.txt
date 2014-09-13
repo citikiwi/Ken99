@@ -1,7 +1,0 @@
-C:\Work\Projects\Ken99\trunk\src\Model\bin\Debug\Ken99.Model.dll
-C:\Work\Projects\Ken99\trunk\src\Model\bin\Debug\Ken99.Model.pdb
-C:\Work\Projects\Ken99\trunk\src\Model\bin\Debug\Castle.Core.dll
-C:\Work\Projects\Ken99\trunk\src\Model\bin\Debug\Vega.USiteBuilder.dll
-C:\Work\Projects\Ken99\trunk\src\Model\bin\Debug\Castle.Core.xml
-C:\Work\Projects\Ken99\trunk\src\Model\obj\Debug\Ken99.Model.dll
-C:\Work\Projects\Ken99\trunk\src\Model\obj\Debug\Ken99.Model.pdb

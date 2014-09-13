@@ -103,6 +103,12 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="umbraco">
+      <HintPath>..\..\dep\UmbracoCms.7.1.6\bin\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Core">
+      <HintPath>..\..\dep\UmbracoCms.7.1.6\bin\Umbraco.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -135,7 +141,9 @@
     <Content Include="js\jquery.min.js" />
     <Content Include="js\skel-panels.min.js" />
     <Content Include="js\skel.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -193,6 +201,10 @@
     <Content Include="Config\UrlRewriting.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppServices\AppServices.csproj">
+      <Project>{92336341-f4e1-4e67-8f04-d7c3962d2956}</Project>
+      <Name>AppServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{c10411c0-ab23-4262-bb52-558f3e58498f}</Project>
       <Name>Model</Name>

@@ -1,4 +1,5 @@
-﻿@inherits UmbracoTemplatePage
+﻿@using Ken99.AppServices;
+@inherits UmbracoTemplatePage
 @{
     // Model.Content is the current page that we're on
     // AncestorsOrSelf is all of the ancestors this page has in the tree
@@ -18,7 +19,7 @@
     var newsItems = newsOverview.umbNewsItems.OrderBy("publishDate desc, createDate desc").Take(5);
 }
 
-<h2 class="major"><span>Recent Posts</span></h2>
+<h2 class="major"><span>@Umbraco.GetDictionaryValue(AppConsts.UmbDic.RecentPostWidget_Title)</span></h2>
 
 <!-- Archives -->
 <ul class="style2">
@@ -45,5 +46,5 @@
         </li>
     }
 </ul>
-<a href="@newsOverview.Url" class="button button-alt">Browse Archives</a>
+<a href="@newsOverview.Url" class="button button-alt">@Umbraco.GetDictionaryValue(AppConsts.UmbDic.RecentPostWidget_BrowseArchiveButton)</a>
 <!-- /Archives -->

@@ -1,4 +1,5 @@
-﻿@inherits UmbracoTemplatePage
+﻿@using Ken99.AppServices;
+@inherits UmbracoTemplatePage
 @{
     // Model.Content is the current page that we're on
     // AncestorsOrSelf is all of the ancestors this page has in the tree
@@ -8,7 +9,7 @@
 }
 <!-- Features -->
 <section class="is-features">
-    <h2 class="major"><span>Wonderful featured pages</span></h2>
+    <h2 class="major"><span>@Umbraco.GetDictionaryValue(AppConsts.UmbDic.FeaturePageWidget_Title)</span></h2>
     <div>
         <div class="row">
             @foreach (var feature in homePage.umbTextPages.Where("featuredPage"))

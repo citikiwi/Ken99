@@ -43,7 +43,7 @@
     <WebFiles Include="$(ProjectDir)**/./umbraco/**" />
     <WebFiles Include="$(ProjectDir)**/./umbraco_client/**" />
     <WebFiles Include="$(ProjectDir)**/./usercontrols/**/*.ascx" />
-    <webFiles Include="$(ProjectDir)**/./Views/**/*.ascx"/>
+    <webFiles Include="$(ProjectDir)**/./Views/**/*.cshtml"/>
     <WebFiles Include="$(ProjectDir)**/./xslt/**/*.xslt" />
 
     <ConfigFiles Include="$(ProjectDir)**/*.config"
