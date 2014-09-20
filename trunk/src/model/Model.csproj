@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocType\DocTypeAlias.cs" />
+    <Compile Include="DocType\DocTypeAliasGen.cs" />
     <Compile Include="DocType\DocTypePropertyTab.cs" />
     <Compile Include="DocType\Home.cs" />
     <Compile Include="DocType\Master.cs" />

@@ -33,14 +33,14 @@
             <div class="3u">
                 <div class="sidebar">
                     <!-- Sidebar -->
-                    @{ Html.RenderPartial("umbLatestNewsWidget"); }
+                    @Umbraco.RenderMacro("LatestNewsWidget")
                     <!-- /Sidebar -->
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="12u">
-                @{ Html.RenderPartial("umbFeatures"); }
+                @Umbraco.RenderMacro("Features")
             </div>
         </div>
     </div>

@@ -160,20 +160,20 @@
     <Folder Include="Scripts\" />
     <Folder Include="themes\" />
     <Folder Include="UserControls\" />
-    <Folder Include="Views\MacroPartials\" />
+    <Folder Include="Views\Partials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MacroScripts\Web.config" />
-    <Content Include="Views\Partials\umbAbout.cshtml" />
-    <Content Include="Views\Partials\umbFeatures.cshtml" />
-    <Content Include="Views\Partials\umbHomepageBanner.cshtml" />
-    <Content Include="Views\Partials\umbLatestNewsWidget.cshtml" />
-    <Content Include="Views\Partials\umbNewsOverviewWidget.cshtml" />
-    <Content Include="Views\Partials\umbSocial.cshtml" />
-    <Content Include="Views\Partials\umbTopNavigation.cshtml" />
+    <Content Include="Views\MacroPartials\umbAbout.cshtml" />
+    <Content Include="Views\MacroPartials\umbFeatures.cshtml" />
+    <Content Include="Views\MacroPartials\umbHomepageBanner.cshtml" />
+    <Content Include="Views\MacroPartials\umbLatestNewsWidget.cshtml" />
+    <Content Include="Views\MacroPartials\umbNewsOverviewWidget.cshtml" />
+    <Content Include="Views\MacroPartials\umbSocial.cshtml" />
+    <Content Include="Views\MacroPartials\umbTopNavigation.cshtml" />
     <Content Include="Views\umbHomePage.cshtml" />
     <Content Include="Views\umbLayout.cshtml" />
     <Content Include="Views\umbNewsItem.cshtml" />

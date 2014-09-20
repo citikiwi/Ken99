@@ -1,0 +1,23 @@
+﻿@using Ken99.AppServices;
+@using Ken99.Model.DocType;
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@if (!Model.Content.GetPropertyValue<bool>(DocTypeAlias.HideBanner,false))
+{
+	var link = Model.Content.GetPropertyValue<string>(DocTypeAlias.BannerLink,"");
+	
+    <!-- Banner -->
+    <div id="banner-wrapper" style="background: url('@(Model.Content.GetPropertyValue<string>(DocTypeAlias.BannerBackgroundImage, ""))') center center no-repeat;">
+        <section id="banner">
+            <h2>@Umbraco.Field("bannerHeader")</h2>
+            <span class="byline">@Umbraco.Field("bannerSubheader")</span>
+            
+		    <!-- Only show the banner link if the link isn't empty -->
+			@if(link != "")
+			{
+            	<a href="@Umbraco.Content(link).Url" class="button">@Umbraco.Field("bannerLinkText")</a>
+            }
+        </section>
+    </div>
+    <!-- /Banner -->
+}

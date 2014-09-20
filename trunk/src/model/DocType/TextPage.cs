@@ -11,7 +11,7 @@ namespace Ken99.Model.DocType
     [DocumentType(Name = "TextPage"
         , Alias = "umbTextPage"
         , AllowedChildNodeTypeOf = new Type[] { typeof(Home) }
-        , AllowedChildNodeTypes = new Type[] {typeof(TextPage) }
+        , AllowedChildNodeTypes = new Type[] {typeof(TextPage), typeof(NewsOverview) }
         , AllowedTemplates = new string[] { TemplateAlias.TextPage }
         , DefaultTemplate = TemplateAlias.TextPage)]
     public class TextPage : Master

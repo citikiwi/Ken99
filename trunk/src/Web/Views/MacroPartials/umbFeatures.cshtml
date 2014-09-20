@@ -1,0 +1,34 @@
+﻿@using Ken99.AppServices;
+@using Ken99.Model.DocType;
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    // Model.Content is the current page that we're on
+    // AncestorsOrSelf is all of the ancestors this page has in the tree
+    // (1) means: go up to level 1 and stop looking for more ancestors when you get there
+    // First() gets the first ancestor found (the home page, on level 1)
+    var homePage = Model.Content.AncestorOrSelf(1);
+}
+<!-- Features -->
+<section class="is-features">
+    <h2 class="major"><span>@Umbraco.GetDictionaryValue(AppConsts.UmbDic.FeaturePageWidget_Title)</span></h2>
+    <div>
+        <div class="row">
+            @foreach (var feature in homePage.Children)
+            {
+                if(feature.GetPropertyValue<bool>(DocTypeAlias.FeaturedPage, false))
+                { 
+                <div class="3u">
+                    <!-- Feature -->
+                    <section class="is-feature">
+                        <a href="@feature.Url" class="image image-full"><img src="@(feature.GetPropertyValue<string>(DocTypeAlias.Image,""))" alt="" /></a>
+                        <h3><a href="@feature.Url">@feature.Name</a></h3>
+                        @Umbraco.Truncate(feature.GetPropertyValue<string>(DocTypeAlias.Content,""), 100)
+                    </section>
+                    <!-- /Feature -->
+                </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+<!-- /Features -->

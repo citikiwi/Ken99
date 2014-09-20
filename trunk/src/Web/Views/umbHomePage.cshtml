@@ -2,18 +2,18 @@
 @{
     Layout = "umbLayout.cshtml";
 }
-@{ Html.RenderPartial("umbHomepageBanner"); }
+@Umbraco.RenderMacro("HomepageBanner")
 <!-- Main -->
 <div id="main-wrapper">
     <div id="main" class="container">
         <div class="row">
             <div class="12u">
-                @{ Html.RenderPartial("umbFeatures"); }
+                @Umbraco.RenderMacro("Features")
             </div>
         </div>
         <div class="row">
             <div class="12u">
-                @{   Html.RenderPartial("umbNewsOverviewWidget"); }
+                @Umbraco.RenderMacro("NewsOverviewWidget")
             </div>
         </div>
     </div>
